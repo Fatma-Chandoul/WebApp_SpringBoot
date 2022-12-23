@@ -6,16 +6,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import tn.essatin.erp.security.service.CompteDetailsImpl;
+import tn.medcherif.testapi.Security.service.CompteDetailsImpl;
 
 import java.util.Date;
 
 @Component
 public class JwtUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
-    @Value("${tn.essat.erp.jwtSecret}")
+    @Value("${tn.medcherif.testapi.jwtSecret}")
     private String jwtSecret;
-    @Value("${tn.essat.erp.jwtExpirationMs}")
+    @Value("${tn.medcherif.testapi.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {

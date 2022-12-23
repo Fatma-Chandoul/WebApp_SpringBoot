@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import tn.essatin.erp.model.Compte;
+import tn.medcherif.testapi.Model.Compte;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,16 +18,16 @@ public class CompteDetailsImpl implements UserDetails {
     private final Integer id;
     private final String login;
     private final Collection<? extends GrantedAuthority> authorities;
-    private String firstname;
-    private String lastname;
+    private final String prenom;
+    private final String nom;
 
     public CompteDetailsImpl(String password, Integer id, String login, Collection<? extends GrantedAuthority> authorities, String firstname, String lastname) {
         this.password = password;
         this.id = id;
         this.login = login;
         this.authorities = authorities;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.prenom = firstname;
+        this.nom = lastname;
     }
 
     public static CompteDetailsImpl build(Compte compte) {
@@ -38,19 +38,19 @@ public class CompteDetailsImpl implements UserDetails {
             compte.getPassword(),
             compte.getId(),
             compte.getLogin(),
-            authorities, compte.getIdPersonne().getNom(), compte.getIdPersonne().getPrenom());
+            authorities, compte.getPersonne().getNom(), compte.getPersonne().getPrenom());
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getNom() {
+        return nom;
     }
 
     @Override

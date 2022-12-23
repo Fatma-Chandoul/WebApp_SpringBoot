@@ -1,6 +1,5 @@
 package tn.medcherif.testapi.Security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,18 +12,22 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import tn.essatin.erp.security.jwt.AuthEntryPointJwt;
-import tn.essatin.erp.security.service.CompteDetailsServiceImpl;
-import tn.essatin.erp.security.jwt.AuthTokenFilter;
+import tn.medcherif.testapi.Security.jwt.AuthEntryPointJwt;
+import tn.medcherif.testapi.Security.jwt.AuthTokenFilter;
+import tn.medcherif.testapi.Security.service.CompteDetailsServiceImpl;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    CompteDetailsServiceImpl compteDetailsService;
-    @Autowired
-    private AuthEntryPointJwt authEntryPointJwt;
+    private final CompteDetailsServiceImpl compteDetailsService;
+    private final AuthEntryPointJwt authEntryPointJwt;
+
+    public WebSecurityConfig(CompteDetailsServiceImpl compteDetailsService, AuthEntryPointJwt authEntryPointJwt) {
+        this.compteDetailsService = compteDetailsService;
+        this.authEntryPointJwt = authEntryPointJwt;
+    }
 
     @Bean
     public AuthTokenFilter authTokenFilter() {
@@ -50,40 +53,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-            .antMatchers("/api/pay/**").permitAll()
-                .antMatchers("/api/session/**").permitAll()
-                .antMatchers("/api/niveaux/**").permitAll()
-                .antMatchers("/api/etudiants/**").permitAll()
-                .antMatchers("/api/cycle/**").permitAll()
-                .antMatchers("/api/specialite/**").permitAll()
-                .antMatchers("/api/parcours/**").permitAll()
-                .antMatchers("/api/niveaux/**").permitAll()
-                .antMatchers("/api/enregistrement/**").permitAll()
-                .antMatchers("/api/personne/**").permitAll()
-                .antMatchers("/api/role/**").permitAll()
-                .antMatchers("/api/inscription/**").permitAll()
-                .antMatchers("/api/nationalite/**").permitAll()
-                .antMatchers("/api/typeidentificateur/**").permitAll()
-                .antMatchers("/api/diplome/**").permitAll()
-                .antMatchers("/api/diplomeetudiant/**").permitAll()
-                .antMatchers("/api/contactetudiant/**").permitAll()
-                .antMatchers("/api/niveausuivant/**").permitAll()
-                .antMatchers("/api/enum/**").permitAll()
-                .antMatchers("/api/employer/**").permitAll()
-                .antMatchers("/api/contrat/**").permitAll()
-                .antMatchers("/api/examdocs/**").permitAll()
-                .antMatchers("/api/recu/**").permitAll()
-                .antMatchers("/api/etudiantfinance/**").permitAll()
-                .antMatchers("/api/prixniveauparsession/**").permitAll()
-                .antMatchers("/api/modalite/**").permitAll()
-                .antMatchers("/api/modalite/**").permitAll()
-                .antMatchers("/api/signatire/**").permitAll()
-
-                .anyRequest().authenticated();
-        http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http
+                .cors().and()
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntryPointJwt).and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**","/api/compte/**").permitAll()
+                .anyRequest().authenticated().and()
+                .addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

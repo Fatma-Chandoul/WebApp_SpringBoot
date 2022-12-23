@@ -1,26 +1,14 @@
 package tn.medcherif.testapi.Payload.Request;
 
-import javax.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+@Getter
+@Setter
 public class LoginRequest {
     @NotBlank(message = "Le login est obligatoire")
-    private String login;
+    private String username;
     @NotBlank(message = "Le password est obligatoire")
     private String password;
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

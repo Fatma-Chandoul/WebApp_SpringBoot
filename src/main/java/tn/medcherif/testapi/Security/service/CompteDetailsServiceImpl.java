@@ -1,18 +1,20 @@
 package tn.medcherif.testapi.Security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.essatin.erp.dao.CompteDao;
-import tn.essatin.erp.model.Compte;
+import tn.medcherif.testapi.DAO.CompteDao;
+import tn.medcherif.testapi.Model.Compte;
 
 @Service
 public class CompteDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    CompteDao compteDao;
+    private final CompteDao compteDao;
+
+    public CompteDetailsServiceImpl(CompteDao compteDao) {
+        this.compteDao = compteDao;
+    }
 
     @Override
     @Transactional

@@ -1,12 +1,11 @@
 package tn.medcherif.testapi.Model;
 
-public enum ERole {
+import java.io.Serializable;
+
+public enum ERole implements Serializable {
     ROLE_ADMIN("Admin"),
-    ROLE_SCOLARITE("Scolarité"),
-    ROLE_FINANCIER("Financier"),
-    ROLE_EXAMEN("Examen"),
-    ROLE_ETUDIANT("Etudiant"),
-    ROLE_DIRECTEUR("Directeur");
+    ROLE_USER("User"),
+    ROLE_FATMA("Fatma");
     private final String value;
 
     ERole(String value) {

@@ -1,15 +1,19 @@
 package tn.medcherif.testapi.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.essatin.erp.Service.CompteService;
-import tn.essatin.erp.dao.CompteDao;
-import tn.essatin.erp.model.Compte;
+import tn.medcherif.testapi.DAO.CompteDao;
+import tn.medcherif.testapi.Model.Compte;
+
+import java.util.Optional;
+
 
 @Service
 public class CompteServiceImpl implements CompteService {
-    @Autowired
-    CompteDao compteDao;
+    private final CompteDao compteDao;
+
+    public CompteServiceImpl(CompteDao compteDao) {
+        this.compteDao = compteDao;
+    }
 
     @Override
     public boolean existByLogin(String login) {
@@ -19,5 +23,10 @@ public class CompteServiceImpl implements CompteService {
     @Override
     public Compte addCompte(Compte compte) {
         return compteDao.save(compte);
+    }
+
+    @Override
+    public Optional<Compte> getById(int id) {
+        return compteDao.findById(id);
     }
 }

@@ -1,9 +1,17 @@
 package tn.medcherif.testapi.Model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Role {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -11,25 +19,6 @@ public class Role {
     private ERole role;
 
     public Role(ERole role) {
-        this.role = role;
-    }
-
-    public Role() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public ERole getRole() {
-        return role;
-    }
-
-    public void setRole(ERole role) {
         this.role = role;
     }
 
